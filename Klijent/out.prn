@@ -1,0 +1,107 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div>
+            <img src="print/logo.png" alt="logo"/>
+        </div>
+        <div class="oFakturi" style="position: absolute; top: 170px; left: 25px;">
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td>Broj fakture:</td>
+                        <td>1/13</td>
+                    </tr>
+                    <tr>
+                        <td>Broj otpremnice:</td>
+                        <td>18096</td>
+                    </tr>
+                    <tr>
+                        <td>Datum:</td>
+                        <td>1/7/13</td>
+                    </tr>
+                    <tr>
+                        <td>Mesto:</td>
+                        <td>Leskovac</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="oPartneru" style="position: absolute; top: 170px; left: 450px; border-style: solid;
+             padding: 10px">
+            <table border="0">
+                <tbody>
+                    <tr>
+                        <td>Betware</td>
+                    </tr>
+                    <tr>
+                        <td>Djordja Stanojevica 12</td>
+                    </tr>
+                    <tr>
+                        <td>96126899312</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="stavke" style="position: absolute; top: 300px">
+            <table border="1" style="border-style: solid">
+                <thead>
+                    <tr>
+                        <th>Red. br.</th>
+                        <th>Proizvod</th>
+                        <th>Kolicina</th>
+                        <th>Rabat</th>
+                        <th>Iznos rabata</th>
+                        <th>Poreska osnovica</th>
+                        <th>PDV</th>
+                        <th>Vrednost PDV-a</th>
+                        <th>Iznos sa PDV-om</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </body>
+</html>
