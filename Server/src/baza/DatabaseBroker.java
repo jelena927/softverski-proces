@@ -17,7 +17,7 @@ import java.util.List;
  * @author student1
  * @param <T>
  */
-public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
+public class DatabaseBroker {
 
     private Connection konekcija;
 
@@ -50,7 +50,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public void sacuvaj(T odo) throws Exception {
+    public void sacuvaj(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String sql = "UPDATE " + odo.vratiNazivTabele()
                     + " SET " + odo.vratiAtributeSaVrednostima() + " WHERE "
@@ -65,13 +65,13 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public List<T> vratiSve(T odo) throws Exception {
+    public List<OpstiDomenskiObjekat> vratiSve(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String sql = "SELECT * FROM " + odo.vratiNazivTabele();
             System.out.println(sql);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(sql);
-            List<T> lista = (List<T>) odo.napuni(rs);
+            List<OpstiDomenskiObjekat> lista = odo.napuni(rs);
 
             return lista;
         } catch (SQLException ex) {
@@ -80,7 +80,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public T kreiraj(T odo) throws Exception {
+    public OpstiDomenskiObjekat kreiraj(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit = "INSERT INTO " + odo.vratiNazivTabele() + "("
                     + odo.vratiNazivKljuca() + ")" + " VALUES (" + odo.vratiVrednostKljuca() + ")";
@@ -95,7 +95,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public int generisiId(T odo) throws Exception {
+    public int generisiId(OpstiDomenskiObjekat odo) throws Exception {
         try {
             int broj = 0;
             String upit = "SELECT LAST(" + odo.vratiNazivKljuca() + ") AS poslednjiId FROM " + odo.vratiNazivTabele();
@@ -112,7 +112,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public void kreirajISacuvaj(T odo) throws Exception {
+    public void kreirajISacuvaj(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit = "INSERT INTO " + odo.vratiNazivTabele() + " VALUES (" + odo.vratiVrednostiAtributa() + ")";
             System.out.println(upit);
@@ -125,39 +125,39 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public List<T> pretraziObjekte(T odo) throws Exception {
+    public List<OpstiDomenskiObjekat> pretraziObjekte(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String sql = "SELECT * FROM " + odo.vratiNazivTabele() + " WHERE " + odo.vratiKriterijumPretrage();
             System.out.println(sql);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(sql);
-            return (List<T>) odo.napuni(rs);
+            return odo.napuni(rs);
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw new Exception("Greška pri pretraživanju!");
         }
     }
 
-    public T dajPodatke(T odo) throws Exception {
+    public OpstiDomenskiObjekat dajPodatke(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit = "SELECT * FROM " + odo.vratiNazivTabele() + " WHERE " + odo.vratiNazivKljuca()
                     + "=" + odo.vratiVrednostKljuca();
             System.out.println(upit);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(upit);
-            return (T) odo.napuni(rs).get(0);
+            return odo.napuni(rs).get(0);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Greška pri izvlačenju podataka!");
         }
     }
 
-    public void brisiStavke(T odo) throws Exception {
+    public void brisiStavke(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit;
-            T odo2;
+            OpstiDomenskiObjekat odo2;
             for (int i = 0; i < odo.vratiBrojStavki(); i++) {
-                odo2 = (T) odo.vratiStavku(i);
+                odo2 = odo.vratiStavku(i);
                 upit = "DELETE FROM " + odo2.vratiNazivTabele() + " WHERE " + odo2.vratiNazivKljuca()
                         + "=" + odo.vratiVrednostKljuca() + " AND " + odo.vratiNazivKljuca() + "="
                         + odo.vratiVrednostKljuca();
@@ -172,7 +172,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public void brisiSlabObjekat(T slab, T jak) throws Exception {
+    public void brisiSlabObjekat(OpstiDomenskiObjekat slab, OpstiDomenskiObjekat jak) throws Exception {
         try {
             String upit = "DELETE FROM " + slab.vratiNazivTabele() + " WHERE " + slab.vratiNazivKljuca()
                     + "=" + slab.vratiVrednostKljuca() + " AND " + jak.vratiNazivKljuca() + "="
@@ -187,7 +187,7 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public void sacuvajSlabObjekat(T slab, T jak) throws Exception {
+    public void sacuvajSlabObjekat(OpstiDomenskiObjekat slab, OpstiDomenskiObjekat jak) throws Exception {
         try {
             String upit = "INSERT INTO " + slab.vratiNazivTabele() + " VALUES ("
                     + slab.vratiVrednostiAtributa() + ", " + jak.vratiVrednostKljuca() + ")";
@@ -201,21 +201,21 @@ public class DatabaseBroker<T extends OpstiDomenskiObjekat> {
         }
     }
 
-    public List<T> vratiSlabeObjekte(T odo) throws Exception {
+    public List<OpstiDomenskiObjekat> vratiSlabeObjekte(OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit = "SELECT * FROM " + odo.vratiTabeluStavke() + " WHERE " + odo.vratiNazivKljuca()
                     + "=" + odo.vratiVrednostKljuca();
             System.out.println(upit);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(upit);
-            return (List<T>) odo.vratiJednuStavku().napuni(rs);
+            return odo.vratiJednuStavku().napuni(rs);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Greška pri izvlačenju podataka!");
         }
     }
 
-    public boolean vratiLogickuVrednostAtributa(String atribut, T odo) throws Exception {
+    public boolean vratiLogickuVrednostAtributa(String atribut, OpstiDomenskiObjekat odo) throws Exception {
         try {
             String upit = " SELECT *"
                     + " FROM " + odo.vratiNazivTabele()
