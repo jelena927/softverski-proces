@@ -10,6 +10,7 @@ import java.util.List;
 /**
  *
  * @author Jelena
+ * @param <T>
  */
 public class PrikaziPodatkeSaVezanimObjektomIStavkama <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
 
@@ -23,14 +24,14 @@ public class PrikaziPodatkeSaVezanimObjektomIStavkama <T extends OpstiDomenskiOb
     public void izvrsiOperaciju() throws Exception {
         objekat = (T) dbbr.dajPodatke(odo);
         objekat.setVezaniObjekat(dbbr.dajPodatke(odo.vratiVezaniObjekat()));
-        List<OpstiDomenskiObjekat> lista = dbbr.vratiSlabeObjekte(odo);
+        List<? extends OpstiDomenskiObjekat> lista = dbbr.vratiSlabeObjekte(odo);
         for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista) {
             opstiDomenskiObjekat.setVezaniObjekat(dbbr.dajPodatke(opstiDomenskiObjekat.vratiVezaniObjekat()));
         }
         objekat.setujStavke(lista);
     }
 
-    public OpstiDomenskiObjekat getObjekat() {
+    public T getObjekat() {
         return objekat;
     }
 }

@@ -9,6 +9,7 @@ import domen.OpstiDomenskiObjekat;
 /**
  *
  * @author Jelena
+ * @param <T>
  */
 public class PrikaziPodatke <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
     T objekat;

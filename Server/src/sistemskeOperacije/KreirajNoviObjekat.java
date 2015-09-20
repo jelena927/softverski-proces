@@ -4,6 +4,7 @@
  */
 package sistemskeOperacije;
 
+import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 
 /**
@@ -21,7 +22,7 @@ public class KreirajNoviObjekat<T extends OpstiDomenskiObjekat> extends OpstaSis
     
     @Override
     public void izvrsiOperaciju() throws Exception {
-        dbbr.kreiraj(odo);
+                dbbr.kreiraj(odo);
     }
 
     public T getObjekat() {

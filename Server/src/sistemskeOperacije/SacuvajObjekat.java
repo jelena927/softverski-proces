@@ -10,9 +10,9 @@ import domen.OpstiDomenskiObjekat;
  *
  * @author Jelena
  */
-public class SacuvajObjekat <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
+public class SacuvajObjekat extends OpstaSistemskaOperacija{
 
-    public SacuvajObjekat(T odo) {
+    public SacuvajObjekat(OpstiDomenskiObjekat odo) {
         super(odo);
     }
     

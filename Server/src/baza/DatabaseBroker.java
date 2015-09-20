@@ -15,7 +15,6 @@ import java.util.List;
 /**
  *
  * @author student1
- * @param <T>
  */
 public class DatabaseBroker {
 
@@ -65,13 +64,13 @@ public class DatabaseBroker {
         }
     }
 
-    public List<OpstiDomenskiObjekat> vratiSve(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> List<T> vratiSve(T odo) throws Exception {
         try {
             String sql = "SELECT * FROM " + odo.vratiNazivTabele();
             System.out.println(sql);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(sql);
-            List<OpstiDomenskiObjekat> lista = odo.napuni(rs);
+            List<T> lista = odo.napuni(rs);
 
             return lista;
         } catch (SQLException ex) {
@@ -80,7 +79,7 @@ public class DatabaseBroker {
         }
     }
 
-    public OpstiDomenskiObjekat kreiraj(OpstiDomenskiObjekat odo) throws Exception {
+    public <V extends OpstiDomenskiObjekat> V kreiraj(V odo) throws Exception {
         try {
             String upit = "INSERT INTO " + odo.vratiNazivTabele() + "("
                     + odo.vratiNazivKljuca() + ")" + " VALUES (" + odo.vratiVrednostKljuca() + ")";
@@ -91,7 +90,7 @@ public class DatabaseBroker {
             return odo;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            throw new Exception("Grepka pri kreiranju objekta!");
+            throw new Exception("Greška pri kreiranju objekta!");
         }
     }
 
@@ -125,7 +124,7 @@ public class DatabaseBroker {
         }
     }
 
-    public List<OpstiDomenskiObjekat> pretraziObjekte(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> List<T> pretraziObjekte(T odo) throws Exception {
         try {
             String sql = "SELECT * FROM " + odo.vratiNazivTabele() + " WHERE " + odo.vratiKriterijumPretrage();
             System.out.println(sql);
@@ -138,14 +137,14 @@ public class DatabaseBroker {
         }
     }
 
-    public OpstiDomenskiObjekat dajPodatke(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> T dajPodatke(T odo) throws Exception {
         try {
             String upit = "SELECT * FROM " + odo.vratiNazivTabele() + " WHERE " + odo.vratiNazivKljuca()
                     + "=" + odo.vratiVrednostKljuca();
             System.out.println(upit);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(upit);
-            return odo.napuni(rs).get(0);
+            return (T) odo.napuni(rs).get(0);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Greška pri izvlačenju podataka!");

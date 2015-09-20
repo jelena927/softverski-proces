@@ -59,7 +59,7 @@ public class Kontroler {
     }
 
     public <T extends OpstiDomenskiObjekat> T kreirajObjekat(T odo) throws Exception {
-        oso = new KreirajNoviObjekat<T>(odo);
+        KreirajNoviObjekat<T> oso = new KreirajNoviObjekat<>(odo);
         oso.izvrsenjeSO();
         return ((KreirajNoviObjekat<T>)oso).getObjekat();
     }
@@ -75,28 +75,28 @@ public class Kontroler {
         oso.izvrsenjeSO();
     }
 
-    public List<OpstiDomenskiObjekat> pretraziObjekte(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> List<T> pretraziObjekte(T odo) throws Exception {
         oso = new PretraziObjekte(odo);
         oso.izvrsenjeSO();
         return ((PretraziObjekte)oso).getLista();
     }
     
-    public List<OpstiDomenskiObjekat> pretraziSaVezanimObjektom(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> List<T> pretraziSaVezanimObjektom(T odo) throws Exception {
         oso = new PretraziObjekteSaVezanimObjektom(odo);
         oso.izvrsenjeSO();
         return ((PretraziObjekteSaVezanimObjektom)oso).getLista();
     }
 
-    public OpstiDomenskiObjekat prikaziPodatke(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> T prikaziPodatke(T odo) throws Exception {
         oso = new PrikaziPodatke(odo);
         oso.izvrsenjeSO();
-        return ((PrikaziPodatke)oso).getObjekat();
+        return ((PrikaziPodatke<T>)oso).getObjekat();
     }
 
-    public OpstiDomenskiObjekat prikaziPodatkeSaVezanimObjektom(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> T prikaziPodatkeSaVezanimObjektom(T odo) throws Exception {
         oso = new PrikaziPodatkeSaVezanimObjektom(odo);
         oso.izvrsenjeSO();
-        return ((PrikaziPodatkeSaVezanimObjektom)oso).getObjekat();
+        return ((PrikaziPodatkeSaVezanimObjektom<T>)oso).getObjekat();
     }
     
     public void sacuvajObjekatSaStavkama(OpstiDomenskiObjekat odo) throws Exception{
@@ -104,10 +104,10 @@ public class Kontroler {
         oso.izvrsenjeSO();
     }
 
-    public OpstiDomenskiObjekat prikaziPodatkeSaVezanimObjektomIStavkama(OpstiDomenskiObjekat odo) throws Exception{
-        oso = new PrikaziPodatkeSaVezanimObjektomIStavkama(odo);
+    public <T extends OpstiDomenskiObjekat> T prikaziPodatkeSaVezanimObjektomIStavkama(T odo) throws Exception{
+        oso = new PrikaziPodatkeSaVezanimObjektomIStavkama<>(odo);
         oso.izvrsenjeSO();
-        return ((PrikaziPodatkeSaVezanimObjektomIStavkama)oso).getObjekat();
+        return ((PrikaziPodatkeSaVezanimObjektomIStavkama<T>)oso).getObjekat();
     }
 
     public void obradi(OpstiDomenskiObjekat odo) throws Exception {

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class VratiObjekteSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
 
-    private List<T> lista;
+    private List<? extends OpstiDomenskiObjekat> lista;
     
     public VratiObjekteSaVezanimObjektom(T odo) {
         super(odo);
@@ -22,13 +22,13 @@ public class VratiObjekteSaVezanimObjektom <T extends OpstiDomenskiObjekat> exte
     
     @Override
     public void izvrsiOperaciju() throws Exception {
-        lista = (List<T>) dbbr.vratiSve(odo);
-        for (T opstiDomenskiObjekat : lista) {
+        lista = dbbr.vratiSve(odo);
+        for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista) {
             opstiDomenskiObjekat.setVezaniObjekat(dbbr.dajPodatke(opstiDomenskiObjekat.vratiVezaniObjekat()));
         }
     }
 
-    public List<T> getLista() {
+    public List<? extends OpstiDomenskiObjekat> getLista() {
         return lista;
     }
 }

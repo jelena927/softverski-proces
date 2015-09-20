@@ -119,7 +119,7 @@ public class Korisnik implements Serializable, OpstiDomenskiObjekat{
     }
 
     @Override
-    public void setujStavke(List<OpstiDomenskiObjekat> lista) {
+    public <T extends OpstiDomenskiObjekat> void setujStavke(List<T> lista) {
     }
 
     public int getId() {

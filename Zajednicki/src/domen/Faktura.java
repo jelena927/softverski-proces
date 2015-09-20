@@ -251,8 +251,8 @@ public class Faktura implements Serializable, OpstiDomenskiObjekat {
 
     
     @Override
-    public void setujStavke(List<OpstiDomenskiObjekat> lista) {
-        for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista) {
+    public <T extends OpstiDomenskiObjekat> void setujStavke(List<T> lista) {
+        for (T opstiDomenskiObjekat : lista) {
             this.stavke.add((StavkaFakture) opstiDomenskiObjekat);
         }
     }

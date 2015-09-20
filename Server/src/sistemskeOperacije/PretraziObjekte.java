@@ -10,10 +10,11 @@ import java.util.List;
 /**
  *
  * @author Jelena
+ * @param <T>
  */
 public class PretraziObjekte<T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
 
-    List<T> lista;
+    List<? extends OpstiDomenskiObjekat> lista;
     
     public PretraziObjekte(T odo) {
         super(odo);
@@ -21,10 +22,10 @@ public class PretraziObjekte<T extends OpstiDomenskiObjekat> extends OpstaSistem
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        lista = (List<T>) dbbr.pretraziObjekte(odo);
+        lista = dbbr.pretraziObjekte(odo);
     }
 
-    public List<T> getLista() {
+    public List<? extends OpstiDomenskiObjekat> getLista() {
         return lista;
     }
 }

@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class VratiSveObjekte <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
 
-    private List<OpstiDomenskiObjekat> lista;
+    private List<? extends OpstiDomenskiObjekat> lista;
     
-    public VratiSveObjekte(OpstiDomenskiObjekat odo) {
+    public VratiSveObjekte(T odo) {
         super(odo);
     }
     
@@ -25,7 +25,7 @@ public class VratiSveObjekte <T extends OpstiDomenskiObjekat> extends OpstaSiste
         lista = dbbr.vratiSve(odo);
     }
 
-    public List<OpstiDomenskiObjekat> getLista() {
+    public List<? extends OpstiDomenskiObjekat> getLista() {
         return lista;
     }
     

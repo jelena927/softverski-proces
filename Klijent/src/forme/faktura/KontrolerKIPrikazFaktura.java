@@ -20,7 +20,7 @@ import transfer.TransferObjekat;
 public class KontrolerKIPrikazFaktura {
 
     public static void prikaziFakture(FmPretragaFaktura aThis) throws Exception {
-        TransferObjekat toZahtev = new TransferObjekat();
+        TransferObjekat<Faktura> toZahtev = new TransferObjekat<>();
         toZahtev.setOperacija(Operacije.PRETRAZI_FAKTURE);
         Faktura f = new Faktura();
         PoslovniPartner partner = (PoslovniPartner) aThis.getCbPartneri().getSelectedItem();
@@ -37,7 +37,7 @@ public class KontrolerKIPrikazFaktura {
     }
 
     public static List<Faktura> vratiFakture(FmPretragaFaktura aThis) throws Exception {
-        TransferObjekat kto = new TransferObjekat();
+        TransferObjekat<Faktura> kto = new TransferObjekat<>();
         kto.setOperacija(Operacije.VRATI_SVE_FAKTURE);
         kto.setParametar(new Faktura());
         Komunikacija.vratiObjekat().posalji(kto);
@@ -51,7 +51,7 @@ public class KontrolerKIPrikazFaktura {
     }
 
     public static void prikaziPodatke(Faktura faktura) throws Exception {
-        TransferObjekat toZahtev = new TransferObjekat();
+        TransferObjekat<Faktura> toZahtev = new TransferObjekat<>();
         toZahtev.setOperacija(Operacije.PRIKAZI_FAKTURU);
         toZahtev.setParametar(faktura);
         Komunikacija.vratiObjekat().posalji(toZahtev);

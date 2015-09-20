@@ -74,7 +74,7 @@ public class KontrolerKIObradaFakture {
             f = new Faktura(faktura.getIdFakture(), brojFakture, partner, 
                     ukupnaVrednost, obradjena, stornirana, stavke, osnovica, pdv, brojOtpremnice, datum);
 
-            TransferObjekat toZahtev = new TransferObjekat();
+            TransferObjekat<Faktura> toZahtev = new TransferObjekat();
             toZahtev.setOperacija(Operacije.OBRADI_FAKTURU);
             toZahtev.setParametar(f);
 

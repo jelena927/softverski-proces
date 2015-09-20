@@ -17,7 +17,7 @@ public interface OpstiDomenskiObjekat {
 
     public String vratiAtributeSaVrednostima();
 
-    public List<OpstiDomenskiObjekat> napuni(ResultSet rs) throws Exception;
+    public <T extends OpstiDomenskiObjekat> List<T> napuni(ResultSet rs) throws Exception;
     
     public String vratiNazivKljuca();
     
@@ -39,7 +39,7 @@ public interface OpstiDomenskiObjekat {
     
     public OpstiDomenskiObjekat vratiJednuStavku();
     
-    public void setujStavke(List<OpstiDomenskiObjekat> lista);
+    public <T extends OpstiDomenskiObjekat> void setujStavke(List<T> lista);
 
     public boolean vrednosnaOgranicenja();
 }

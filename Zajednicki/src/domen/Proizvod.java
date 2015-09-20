@@ -163,7 +163,7 @@ public class Proizvod implements Serializable, OpstiDomenskiObjekat {
     }
 
     @Override
-    public void setujStavke(List<OpstiDomenskiObjekat> lista) {
+    public <T extends OpstiDomenskiObjekat> void setujStavke(List<T> lista) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

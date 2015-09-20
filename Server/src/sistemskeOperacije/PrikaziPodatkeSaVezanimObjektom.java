@@ -9,6 +9,7 @@ import domen.OpstiDomenskiObjekat;
 /**
  *
  * @author Jelena
+ * @param <T>
  */
 public class PrikaziPodatkeSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
 
@@ -21,11 +22,11 @@ public class PrikaziPodatkeSaVezanimObjektom <T extends OpstiDomenskiObjekat> ex
     @Override
     public void izvrsiOperaciju() throws Exception {
         objekat = (T) dbbr.dajPodatke(odo);
-        T o = (T) dbbr.dajPodatke(objekat.vratiVezaniObjekat());
+        OpstiDomenskiObjekat o = dbbr.dajPodatke(objekat.vratiVezaniObjekat());
         objekat.setVezaniObjekat(o);
     }
 
-    public OpstiDomenskiObjekat getObjekat() {
+    public T getObjekat() {
         return objekat;
     }
     
