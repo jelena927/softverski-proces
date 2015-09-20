@@ -71,7 +71,7 @@ public class DatabaseBroker {
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(sql);
             List<T> lista = odo.napuni(rs);
-
+            
             return lista;
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -144,7 +144,8 @@ public class DatabaseBroker {
             System.out.println(upit);
             Statement sqlNaredba = konekcija.createStatement();
             ResultSet rs = sqlNaredba.executeQuery(upit);
-            return (T) odo.napuni(rs).get(0);
+            List<T> lista = odo.napuni(rs);
+            return lista.get(0);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new Exception("Greška pri izvlačenju podataka!");
