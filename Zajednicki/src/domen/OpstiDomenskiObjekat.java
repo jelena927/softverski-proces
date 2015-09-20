@@ -33,7 +33,7 @@ public interface OpstiDomenskiObjekat {
     
     public OpstiDomenskiObjekat vratiVezaniObjekat();
     
-    public void setVezaniObjekat(OpstiDomenskiObjekat odo);
+    public <T extends OpstiDomenskiObjekat> void setVezaniObjekat(T odo);
     
     public String vratiTabeluStavke();
     

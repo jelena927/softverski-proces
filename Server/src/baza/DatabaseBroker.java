@@ -201,7 +201,7 @@ public class DatabaseBroker {
         }
     }
 
-    public List<OpstiDomenskiObjekat> vratiSlabeObjekte(OpstiDomenskiObjekat odo) throws Exception {
+    public <T extends OpstiDomenskiObjekat> List<T> vratiSlabeObjekte(T odo) throws Exception {
         try {
             String upit = "SELECT * FROM " + odo.vratiTabeluStavke() + " WHERE " + odo.vratiNazivKljuca()
                     + "=" + odo.vratiVrednostKljuca();

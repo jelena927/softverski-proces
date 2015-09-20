@@ -10,12 +10,13 @@ import domen.OpstiDomenskiObjekat;
 /**
  *
  * @author student1
+ * @param <T>
  */
-public abstract class OpstaSistemskaOperacija {
+public abstract class OpstaSistemskaOperacija <T extends OpstiDomenskiObjekat>{
     protected DatabaseBroker dbbr;
-    protected OpstiDomenskiObjekat odo;
+    protected T odo;
 
-    public OpstaSistemskaOperacija(OpstiDomenskiObjekat odo) {
+    public OpstaSistemskaOperacija(T odo) {
         dbbr = new DatabaseBroker();
         this.odo = odo;
     }

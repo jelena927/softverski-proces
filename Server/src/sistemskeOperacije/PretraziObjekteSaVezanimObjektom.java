@@ -12,9 +12,9 @@ import java.util.List;
  * @author Jelena
  * @param <T>
  */
-public class PretraziObjekteSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
+public class PretraziObjekteSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija<T>{
 
-    List<? extends OpstiDomenskiObjekat> lista;
+    List<T> lista;
     
     public PretraziObjekteSaVezanimObjektom(T odo) {
         super(odo);
@@ -23,12 +23,12 @@ public class PretraziObjekteSaVezanimObjektom <T extends OpstiDomenskiObjekat> e
     @Override
     public void izvrsiOperaciju() throws Exception {
         lista = dbbr.pretraziObjekte(odo);
-        for (OpstiDomenskiObjekat opstiDomenskiObjekat : lista) {
+        for (T opstiDomenskiObjekat : lista) {
             opstiDomenskiObjekat.setVezaniObjekat(dbbr.dajPodatke(opstiDomenskiObjekat.vratiVezaniObjekat()));
         }
     }
 
-    public List<? extends OpstiDomenskiObjekat> getLista() {
+    public List<T> getLista() {
         return lista;
     }
 }

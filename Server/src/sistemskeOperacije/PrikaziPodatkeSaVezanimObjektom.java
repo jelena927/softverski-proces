@@ -11,7 +11,7 @@ import domen.OpstiDomenskiObjekat;
  * @author Jelena
  * @param <T>
  */
-public class PrikaziPodatkeSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija{
+public class PrikaziPodatkeSaVezanimObjektom <T extends OpstiDomenskiObjekat> extends OpstaSistemskaOperacija<T>{
 
     T objekat; 
     
@@ -21,7 +21,7 @@ public class PrikaziPodatkeSaVezanimObjektom <T extends OpstiDomenskiObjekat> ex
 
     @Override
     public void izvrsiOperaciju() throws Exception {
-        objekat = (T) dbbr.dajPodatke(odo);
+        objekat = dbbr.dajPodatke(odo);
         OpstiDomenskiObjekat o = dbbr.dajPodatke(objekat.vratiVezaniObjekat());
         objekat.setVezaniObjekat(o);
     }

@@ -4,7 +4,6 @@
  */
 package sistemskeOperacije;
 
-import domen.Mesto;
 import domen.OpstiDomenskiObjekat;
 
 /**
