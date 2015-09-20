@@ -27,7 +27,7 @@ import transfer.TransferObjekat;
  */
 public class NitZaOpsluzivanjeKlijenta extends Thread {
     
-    private Socket socket;
+    private final Socket socket;
     private boolean kraj;
     public static int brojac = 0;
 
@@ -252,7 +252,7 @@ public class NitZaOpsluzivanjeKlijenta extends Thread {
                     try {
                         System.out.println("O: " + Operacije.PRIJAVI_KORISNIKA);
                         Korisnik k = (Korisnik) toZahtev.getParametar();
-                        k = (Korisnik) Kontroler.vratiObjekat().pretraziObjekte(k).get(0);
+                        k = Kontroler.vratiObjekat().pretraziObjekte(k).get(0);
                         toOdgovor.setRezultat(k);
                         toOdgovor.setPoruka("Sistem je pronasao korisnika.");
                     } catch (Exception ex) {
@@ -278,7 +278,7 @@ public class NitZaOpsluzivanjeKlijenta extends Thread {
                     try {
                         System.out.println("O: " + Operacije.PRIKAZI_FAKTURU);
                         Faktura f = (Faktura) toZahtev.getParametar();
-                        Faktura nova = (Faktura) Kontroler.vratiObjekat().prikaziPodatkeSaVezanimObjektomIStavkama(f);
+                        Faktura nova = Kontroler.vratiObjekat().prikaziPodatkeSaVezanimObjektomIStavkama(f);
                         toOdgovor.setRezultat(nova);
                         toOdgovor.setPoruka("Sistem je pronasao podatke o izabranoj fakturi!");
                     } catch (Exception e) {
@@ -291,7 +291,7 @@ public class NitZaOpsluzivanjeKlijenta extends Thread {
                     try {
                         System.out.println("O: " + Operacije.PRIKAZI_PROIZVOD);
                         Proizvod p = (Proizvod) toZahtev.getParametar();
-                        Proizvod novi = (Proizvod) Kontroler.vratiObjekat().prikaziPodatke(p);
+                        Proizvod novi = Kontroler.vratiObjekat().prikaziPodatke(p);
                         toOdgovor.setRezultat(novi);
                         toOdgovor.setPoruka("Sistem je pronasao podatke o izabranom proizvodu!");
                     } catch (Exception e) {
@@ -304,7 +304,7 @@ public class NitZaOpsluzivanjeKlijenta extends Thread {
                     try {
                         System.out.println("O: " + Operacije.PRIKAZI_POSLOVNOG_PARTNERA);
                         PoslovniPartner p = (PoslovniPartner) toZahtev.getParametar();
-                        PoslovniPartner novi = (PoslovniPartner) Kontroler.vratiObjekat().prikaziPodatkeSaVezanimObjektom(p);
+                        PoslovniPartner novi = Kontroler.vratiObjekat().prikaziPodatkeSaVezanimObjektom(p);
                         toOdgovor.setRezultat(novi);
                         toOdgovor.setPoruka("Sistem je pronasao podatke o izabranom poslovnom partneru!");
                     } catch (Exception e) {
