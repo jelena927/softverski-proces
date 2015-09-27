@@ -5,8 +5,6 @@
 package forme.partner.model;
 
 import domen.PoslovniPartner;
-import forme.partner.FmPrikazPartneraTabela;
-import forme.partner.KontrolerKIPrikazPoslovnihPartnera;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,7 +13,7 @@ import javax.swing.table.AbstractTableModel;
  * @author Jelena
  */
 public class ModelTabelePoslovniPartner extends AbstractTableModel {
-    private List<PoslovniPartner> lista;
+    private final List<PoslovniPartner> lista;
 
     public ModelTabelePoslovniPartner(List<PoslovniPartner> lista) {
         this.lista = lista;
@@ -57,11 +55,5 @@ public class ModelTabelePoslovniPartner extends AbstractTableModel {
 
     public PoslovniPartner getPoslovniPartner(int selectedRow) {
         return lista.get(selectedRow);
-    }
-    
-    public void azurirajTabelu(PoslovniPartner p, FmPrikazPartneraTabela f) throws Exception {
-        lista.removeAll(lista);
-        KontrolerKIPrikazPoslovnihPartnera.prikaziPoslovnePartnere(f);
-        fireTableDataChanged();
     }
 }

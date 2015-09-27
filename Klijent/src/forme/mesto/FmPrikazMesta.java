@@ -6,6 +6,7 @@ package forme.mesto;
 
 import domen.Mesto;
 import forme.mesto.model.ModelTabeleMesto;
+import java.awt.Frame;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -13,14 +14,16 @@ import javax.swing.JOptionPane;
  *
  * @author Korisnik
  */
-public class FmPrikazMesta extends javax.swing.JPanel {
+public class FmPrikazMesta extends javax.swing.JDialog {
 
+    private List<Mesto> lista;
     /**
      * Creates new form FmPrikazMesta
      */
-    public FmPrikazMesta() {
+    public FmPrikazMesta(Frame parent, boolean modal, List<Mesto> model) {
+        super(parent, modal);
         initComponents();
-        srediFormu();
+        lista = model;
     }
 
     /**
@@ -35,6 +38,9 @@ public class FmPrikazMesta extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblMesto = new javax.swing.JTable();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(400, 300));
+
         jtblMesto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -48,8 +54,8 @@ public class FmPrikazMesta extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jtblMesto);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
@@ -64,10 +70,9 @@ public class FmPrikazMesta extends javax.swing.JPanel {
     private javax.swing.JTable jtblMesto;
     // End of variables declaration//GEN-END:variables
 
-    private void srediFormu() {
+    public void postaviVrednosti() {
         try {
-            List<Mesto> lm = KontrolorKIMesta.vratiMesta();
-            ModelTabeleMesto mtm = new ModelTabeleMesto(lm);
+            ModelTabeleMesto mtm = new ModelTabeleMesto(lista);
             jtblMesto.setModel(mtm);
         } catch (Exception ex) {
             ex.printStackTrace();

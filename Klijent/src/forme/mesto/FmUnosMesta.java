@@ -4,19 +4,24 @@
  */
 package forme.mesto;
 
+import domen.Mesto;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
 /**
  *
  * @author student1
  */
 public class FmUnosMesta extends javax.swing.JDialog {
-KontrolerKIUnosMesta kki;
+
+    private Mesto mesto;
     /**
      * Creates new form FmUnosMesta
      */
-    public FmUnosMesta(java.awt.Frame parent, boolean modal) {
+    public FmUnosMesta(java.awt.Frame parent, boolean modal, Mesto model) {
         super(parent, modal);
         initComponents();
-        kki = new KontrolerKIUnosMesta();
+        mesto = model;
     }
 
     /**
@@ -41,11 +46,6 @@ KontrolerKIUnosMesta kki;
         jLabel2.setText("Naziv:");
 
         jbtnSnimi.setText("Snimi");
-        jbtnSnimi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnSnimiActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -84,51 +84,6 @@ KontrolerKIUnosMesta kki;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnSnimiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSnimiActionPerformed
-        kki.unosMesta(this, jtxtPtt, jtxtNaziv);
-    }//GEN-LAST:event_jbtnSnimiActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmUnosMesta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmUnosMesta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmUnosMesta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmUnosMesta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmUnosMesta dialog = new FmUnosMesta(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -140,5 +95,17 @@ KontrolerKIUnosMesta kki;
     public void obrisiPolja(){
         jtxtPtt.setText(null);
         jtxtNaziv.setText(null);
+    }
+
+    public JButton getJbtnSnimi() {
+        return jbtnSnimi;
+    }
+
+    public JTextField getJtxtNaziv() {
+        return jtxtNaziv;
+    }
+
+    public JTextField getJtxtPtt() {
+        return jtxtPtt;
     }
 }

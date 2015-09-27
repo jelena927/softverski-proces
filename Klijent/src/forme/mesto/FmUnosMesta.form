@@ -82,9 +82,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Snimi"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnSnimiActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

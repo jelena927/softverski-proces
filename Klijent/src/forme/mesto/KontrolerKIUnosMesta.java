@@ -5,10 +5,13 @@
 package forme.mesto;
 
 import domen.Mesto;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import klijent.Komunikacija;
 import konstante.Operacije;
+import konverter.KonverterTipova;
 import transfer.TransferObjekat;
 
 /**
@@ -17,27 +20,39 @@ import transfer.TransferObjekat;
  */
 public class KontrolerKIUnosMesta {
     
-    public void unosMesta(FmUnosMesta panelUnosMesta, JTextField jtxtPtt, JTextField jtxtNaziv){
+    private final Mesto model;
+    private final FmUnosMesta view;
+
+    public KontrolerKIUnosMesta(Frame mainFrame) {
+        this.model = new Mesto();
+        this.view = new FmUnosMesta(mainFrame, true, model);
+    }
+      
+    public void pokreniFormu(){
+        postaviOsluskivace();
+        prikaziFormu();
+    }
+    
+    private void unosMesta(){
         try {
-            int ptt = 0;
-            String naziv = jtxtNaziv.getText().trim();
+            model.setNaziv(KonverterTipova.konvertuj(view.getJtxtNaziv(), String.class));
             
-            if (naziv.isEmpty() || jtxtPtt.getText().isEmpty()) {
+            if (model.getNaziv().isEmpty()) {
                 throw new Exception("Sva polja su obavezna.");
             }
             
+            int ptt = 0;
             try {
-                ptt = Integer.parseInt(jtxtPtt.getText().trim());
+                ptt = KonverterTipova.konvertuj(view.getJtxtPtt(), Integer.class);
             } catch (Exception e) {
                 throw new Exception("Poštanski broj sadrži samo cifre.");
             }
-            
-            Mesto mesto = new Mesto(ptt, naziv);
+            model.setPtt(ptt);
             
             //formiranje paketa
             TransferObjekat toZahtev = new TransferObjekat();
             toZahtev.setOperacija(Operacije.SACUVAJ_MESTO);
-            toZahtev.setParametar(mesto);
+            toZahtev.setParametar(model);
             
             //slanje zahteva
             Komunikacija.vratiObjekat().posalji(toZahtev);
@@ -47,15 +62,29 @@ public class KontrolerKIUnosMesta {
             String poruka = null;
             if (toOdogovor.getIzuzetak() != null) {
                 poruka = ((Exception)toOdogovor.getIzuzetak()).getMessage();
-                JOptionPane.showMessageDialog(panelUnosMesta, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
             } else {
                 poruka = (String) toOdogovor.getPoruka();
-                panelUnosMesta.obrisiPolja();
-                JOptionPane.showMessageDialog(panelUnosMesta, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
+                view.obrisiPolja();
+                JOptionPane.showMessageDialog(view, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(panelUnosMesta, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void prikaziFormu() {
+        view.setVisible(true);
+    }
+
+    private void postaviOsluskivace() {
+        view.getJbtnSnimi().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                unosMesta();
+            }
+        });
     }
 }

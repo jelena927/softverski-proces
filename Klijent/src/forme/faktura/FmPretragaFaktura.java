@@ -10,10 +10,10 @@ import forme.faktura.model.ModelTableFaktura;
 import forme.partner.KontrolerKIPrikazPoslovnihPartnera;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
 /**
  *
@@ -21,15 +21,14 @@ import javax.swing.JTextField;
  */
 public class FmPretragaFaktura extends javax.swing.JDialog {
 
+    private List<Faktura> lista;
     /**
      * Creates new form FmPretragaFaktura
      */
-    public FmPretragaFaktura(java.awt.Frame parent, boolean modal) {
+    public FmPretragaFaktura(java.awt.Frame parent, boolean modal, List<Faktura> model) {
         super(parent, modal);
         initComponents();
-        popuniTabelu();
-        popuniCB();
-        btnPrikazi.setEnabled(false);
+        lista = model;
     }
 
     /**
@@ -53,21 +52,16 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Unesite datum fakture"));
 
-        jLabel2.setText("Datum:");
+        jLabel2.setText("Poslovni partner:");
 
         btnPretraga1.setText("Pretraži");
-        btnPretraga1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPretraga1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -96,24 +90,9 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
 
             }
         ));
-        tblFakture.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblFaktureMouseClicked(evt);
-            }
-        });
-        tblFakture.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tblFaktureFocusLost(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblFakture);
 
         btnPrikazi.setText("Prikaži fakturu");
-        btnPrikazi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrikaziActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,7 +102,7 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnPrikazi)))
@@ -144,86 +123,6 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPretraga1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraga1ActionPerformed
-        try {
-            KontrolerKIPrikazFaktura.prikaziFakture(this);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnPretraga1ActionPerformed
-
-    private void tblFaktureMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFaktureMouseClicked
-        if (tblFakture.getSelectedRow() != -1) {
-            btnPrikazi.setEnabled(true);
-        }else{
-            btnPrikazi.setEnabled(false);
-        }
-    }//GEN-LAST:event_tblFaktureMouseClicked
-
-    private void tblFaktureFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblFaktureFocusLost
-
-    }//GEN-LAST:event_tblFaktureFocusLost
-
-    private void btnPrikaziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrikaziActionPerformed
-        if (tblFakture.getSelectedRow() == -1) {
-            return;
-        }
-        try {
-            Faktura faktura = ((ModelTableFaktura) tblFakture.getModel()).
-            getFaktura(tblFakture.getSelectedRow());
-
-            KontrolerKIPrikazFaktura.prikaziPodatke(faktura);
-            
-            ((ModelTableFaktura) tblFakture.getModel()).azurirajTabelu(faktura, this);
-            btnPrikazi.setEnabled(false);
-            
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnPrikaziActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmPretragaFaktura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmPretragaFaktura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmPretragaFaktura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmPretragaFaktura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmPretragaFaktura dialog = new FmPretragaFaktura(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPretraga1;
     private javax.swing.JButton btnPrikazi;
@@ -236,7 +135,6 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
 
     private void popuniTabelu() {
         try {
-            List<Faktura> lista = KontrolerKIPrikazFaktura.vratiFakture(this);
             ModelTableFaktura mtp = new ModelTableFaktura(lista);
             tblFakture.setModel(mtp);
         } catch (Exception ex) {
@@ -253,6 +151,14 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
         return tblFakture;
     }
 
+    public JButton getBtnPretraga1() {
+        return btnPretraga1;
+    }
+
+    public JButton getBtnPrikazi() {
+        return btnPrikazi;
+    }
+
     private void popuniCB() {
         try {
             List<PoslovniPartner> lista = KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this);
@@ -261,6 +167,12 @@ public class FmPretragaFaktura extends javax.swing.JDialog {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    void postaviVrednosti() {
+        popuniTabelu();
+        popuniCB();
+        btnPrikazi.setEnabled(false);
     }
 
 }

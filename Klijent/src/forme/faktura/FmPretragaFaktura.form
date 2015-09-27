@@ -27,7 +27,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel2" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="380" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="btnPrikazi" min="-2" max="-2" attributes="0"/>
@@ -65,7 +65,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
@@ -96,16 +96,13 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Datum:"/>
+            <Property name="text" type="java.lang.String" value="Poslovni partner:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnPretraga1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pretra&#x17e;i"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPretraga1ActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbPartneri">
           <Properties>
@@ -129,10 +126,6 @@
               <Table columnCount="0" rowCount="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblFaktureMouseClicked"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblFaktureFocusLost"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -140,9 +133,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Prika&#x17e;i fakturu"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrikaziActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

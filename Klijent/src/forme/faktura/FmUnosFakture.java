@@ -6,19 +6,19 @@ package forme.faktura;
 
 import domen.Faktura;
 import domen.Proizvod;
-import domen.StavkaFakture;
 import forme.faktura.model.ModelTabeleStavkaFakture;
 import forme.partner.KontrolerKIPrikazPoslovnihPartnera;
 import forme.proizvod.KontrolerKIPrikazProizvoda;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
@@ -28,18 +28,15 @@ import javax.swing.table.TableColumnModel;
  */
 public class FmUnosFakture extends javax.swing.JDialog {
 
-    private Faktura faktura = new Faktura();
+    private Faktura faktura;
 
     /**
      * Creates new form FmUnosFakture
      */
-    public FmUnosFakture(java.awt.Frame parent, boolean modal) {
+    public FmUnosFakture(java.awt.Frame parent, boolean modal, Faktura model) {
         super(parent, modal);
         initComponents();
-        tblStavkeFakture.setModel(new ModelTabeleStavkaFakture(new Faktura()));
-        faktura.setStavke(new ArrayList<StavkaFakture>());
-        
-        //inicijalizuj();
+        faktura = model;
     }
 
     /**
@@ -78,11 +75,6 @@ public class FmUnosFakture extends javax.swing.JDialog {
         checkStornirana = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         jLabel1.setText("Broj fakture:");
 
@@ -103,47 +95,17 @@ public class FmUnosFakture extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblStavkeFakture.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                tblStavkeFakturePropertyChange(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblStavkeFakture);
 
         btnDodajStavku.setText("+");
-        btnDodajStavku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDodajStavkuActionPerformed(evt);
-            }
-        });
 
         btnSacuvaj.setText("Sačuvaj");
-        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSacuvajActionPerformed(evt);
-            }
-        });
 
         btnObradi.setText("Obradi");
-        btnObradi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObradiActionPerformed(evt);
-            }
-        });
 
         btnIzmeni.setText("Izmeni");
-        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniActionPerformed(evt);
-            }
-        });
 
         btnStorniraj.setText("Storniraj");
-        btnStorniraj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStornirajActionPerformed(evt);
-            }
-        });
 
         labelUkupanIznos.setText("Ukupna vrednost:");
 
@@ -160,11 +122,6 @@ public class FmUnosFakture extends javax.swing.JDialog {
         txtPdv.setEditable(false);
 
         btnObrisiStavku.setText("-");
-        btnObrisiStavku.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObrisiStavkuActionPerformed(evt);
-            }
-        });
 
         checkObradjena.setText("Obrađena");
         checkObradjena.setEnabled(false);
@@ -297,101 +254,6 @@ public class FmUnosFakture extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDodajStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajStavkuActionPerformed
-        try {
-            ((ModelTabeleStavkaFakture) tblStavkeFakture.getModel()).dodajStavkuFakture();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnDodajStavkuActionPerformed
-
-    private void tblStavkeFakturePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblStavkeFakturePropertyChange
-        if (tblStavkeFakture.getModel() instanceof DefaultTableModel) {
-            return;
-        }
-        try{
-        txtOsnovica.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
-                getModel()).vratiPoreskuOsnovicu());
-        txtPdv.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
-                getModel()).vratiPDV());
-        txtUkupnaVrednost.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
-                getModel()).vratiUkupnuVrednostFakture(txtOsnovica, txtPdv));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tblStavkeFakturePropertyChange
-
-    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
-        KontrolerKIUnosFakture.zapamtiFakturu(this, txtBrojFakture, txtBrojOtpremnice, txtDatum,
-                txtOsnovica, txtPdv, txtUkupnaVrednost, tblStavkeFakture, cbPoslovniPartner,
-                checkObradjena, checkStornirana);
-    }//GEN-LAST:event_btnSacuvajActionPerformed
-
-    private void btnObradiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObradiActionPerformed
-        KontrolerKIObradaFakture.obradiFakturu(faktura, this, txtBrojFakture, txtBrojOtpremnice, txtDatum, txtOsnovica, txtPdv, txtUkupnaVrednost, tblStavkeFakture, cbPoslovniPartner, checkObradjena, checkStornirana);
-    }//GEN-LAST:event_btnObradiActionPerformed
-
-    private void btnObrisiStavkuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiStavkuActionPerformed
-        if (tblStavkeFakture.getSelectedRow() == -1) {
-            return;
-        }
-        ((ModelTabeleStavkaFakture) tblStavkeFakture.getModel()).obrisiStavku(tblStavkeFakture.getSelectedRow());
-    }//GEN-LAST:event_btnObrisiStavkuActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-    }//GEN-LAST:event_formWindowOpened
-
-    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
-        KontrolerKIIzmenaFakture.izmeniFakturu(faktura, this, txtBrojFakture, txtBrojOtpremnice, txtDatum, txtOsnovica, txtPdv, txtUkupnaVrednost, tblStavkeFakture, cbPoslovniPartner, checkObradjena, checkStornirana);
-    }//GEN-LAST:event_btnIzmeniActionPerformed
-
-    private void btnStornirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStornirajActionPerformed
-        KontrolerKIStorniranjeFakture.stornirajFakturu(faktura, this, txtBrojFakture, txtBrojOtpremnice, txtDatum, txtOsnovica, txtPdv, txtUkupnaVrednost, tblStavkeFakture, cbPoslovniPartner, checkObradjena, checkStornirana);
-    }//GEN-LAST:event_btnStornirajActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmUnosFakture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmUnosFakture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmUnosFakture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmUnosFakture.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmUnosFakture dialog = new FmUnosFakture(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajStavku;
     private javax.swing.JButton btnIzmeni;
@@ -419,28 +281,6 @@ public class FmUnosFakture extends javax.swing.JDialog {
     private javax.swing.JTextField txtPdv;
     private javax.swing.JTextField txtUkupnaVrednost;
     // End of variables declaration//GEN-END:variables
-
-    public void inicijalizuj() {
-        try {
-            tblStavkeFakture.setModel(new ModelTabeleStavkaFakture(KontrolerKIUnosFakture.getFaktura()));
-            cbPoslovniPartner.setModel(new DefaultComboBoxModel(KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this).toArray()));
-            List<Proizvod> proizvodi = KontrolerKIPrikazProizvoda.vratiProizvode(this);
-            JComboBox comboBoxProizvodi = new JComboBox(new DefaultComboBoxModel(proizvodi.toArray()));
-            TableColumnModel tcm = tblStavkeFakture.getColumnModel();
-            TableColumn tc = tcm.getColumn(1);
-            tc.setCellEditor(new DefaultCellEditor(comboBoxProizvodi));
-            setKreirana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     public void setSacuvana() {
         btnSacuvaj.setEnabled(false);
@@ -495,29 +335,37 @@ public class FmUnosFakture extends javax.swing.JDialog {
         btnObradi.setEnabled(false);
     }
 
-    void popuniPodatke(Faktura f) {
+    void popuniPodatke(boolean izmena) {
         try {
-            faktura = f;
-            txtBrojFakture.setText(f.getBrojFakture());
-            txtBrojOtpremnice.setText(f.getBrojOtpremnice());
-            txtDatum.setText(new SimpleDateFormat("dd/MM/yyyy").format(f.getDatum()));
-            tblStavkeFakture.setModel(new ModelTabeleStavkaFakture(f));
+            tblStavkeFakture.setModel(new ModelTabeleStavkaFakture(faktura));
+            cbPoslovniPartner.setModel(new DefaultComboBoxModel(KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this).toArray()));
             List<Proizvod> proizvodi = KontrolerKIPrikazProizvoda.vratiProizvode(this);
             JComboBox comboBoxProizvodi = new JComboBox(new DefaultComboBoxModel(proizvodi.toArray()));
             TableColumnModel tcm = tblStavkeFakture.getColumnModel();
             TableColumn tc = tcm.getColumn(1);
             tc.setCellEditor(new DefaultCellEditor(comboBoxProizvodi));
-            cbPoslovniPartner.setModel(new DefaultComboBoxModel(KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this).toArray()));
-            cbPoslovniPartner.setSelectedItem(f.getPoslovniPartner());
-            checkObradjena.setSelected(f.isObradjena());
-            checkStornirana.setSelected(f.isStornirana());
-          //  setVisible(true);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+            setKreirana();
+            if(izmena){
+                txtBrojFakture.setText(faktura.getBrojFakture());
+                txtBrojOtpremnice.setText(faktura.getBrojOtpremnice());
+                txtDatum.setText(new SimpleDateFormat("dd/MM/yyyy").format(faktura.getDatum()));
+                tblStavkeFakture.setModel(new ModelTabeleStavkaFakture(faktura));
+                cbPoslovniPartner.setModel(new DefaultComboBoxModel(KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this).toArray()));
+                cbPoslovniPartner.setSelectedItem(faktura.getPoslovniPartner());
+                checkObradjena.setSelected(faktura.isObradjena());
+                checkStornirana.setSelected(faktura.isStornirana());
+                txtOsnovica.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
+                            getModel()).vratiPoreskuOsnovicu());
+                txtPdv.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
+                            getModel()).vratiPDV());
+                txtUkupnaVrednost.setText(((ModelTabeleStavkaFakture) tblStavkeFakture.
+                            getModel()).vratiUkupnuVrednostFakture(txtOsnovica, txtPdv));
+                setSacuvana();
+                if(faktura.isStornirana())
+                    setStornirana();
+                else if(faktura.isObradjena())
+                    setObradjena();
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
@@ -530,5 +378,69 @@ public class FmUnosFakture extends javax.swing.JDialog {
     
     public Faktura getFaktura(){
         return faktura;
+    }
+
+    public JButton getBtnDodajStavku() {
+        return btnDodajStavku;
+    }
+
+    public JButton getBtnIzmeni() {
+        return btnIzmeni;
+    }
+
+    public JButton getBtnObradi() {
+        return btnObradi;
+    }
+
+    public JButton getBtnObrisiStavku() {
+        return btnObrisiStavku;
+    }
+
+    public JButton getBtnSacuvaj() {
+        return btnSacuvaj;
+    }
+
+    public JButton getBtnStorniraj() {
+        return btnStorniraj;
+    }
+
+    public JComboBox getCbPoslovniPartner() {
+        return cbPoslovniPartner;
+    }
+
+    public JCheckBox getCheckObradjena() {
+        return checkObradjena;
+    }
+
+    public JCheckBox getCheckStornirana() {
+        return checkStornirana;
+    }
+
+    public JTable getTblStavkeFakture() {
+        return tblStavkeFakture;
+    }
+
+    public JTextField getTxtBrojFakture() {
+        return txtBrojFakture;
+    }
+
+    public JTextField getTxtBrojOtpremnice() {
+        return txtBrojOtpremnice;
+    }
+
+    public JTextField getTxtDatum() {
+        return txtDatum;
+    }
+
+    public JTextField getTxtOsnovica() {
+        return txtOsnovica;
+    }
+
+    public JTextField getTxtPdv() {
+        return txtPdv;
+    }
+
+    public JTextField getTxtUkupnaVrednost() {
+        return txtUkupnaVrednost;
     }
 }

@@ -71,9 +71,6 @@
               <Table columnCount="0" rowCount="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblProizvodiMouseClicked"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -128,9 +125,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Pretra&#x17e;i"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPretragaActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNaziv">
         </Component>
@@ -140,9 +134,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Izmeni proizvod"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzmeniProizvodActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

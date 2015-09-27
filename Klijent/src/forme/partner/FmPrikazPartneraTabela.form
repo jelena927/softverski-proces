@@ -66,10 +66,6 @@
               <Table columnCount="0" rowCount="0"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblPartneriMouseClicked"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tblPartneriFocusLost"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -124,9 +120,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Pretra&#x17e;i"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPretraga1ActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNaziv1">
         </Component>
@@ -136,9 +129,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Izmeni poslovnog partnera"/>
       </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzmeniActionPerformed"/>
-      </Events>
     </Component>
   </SubComponents>
 </Form>

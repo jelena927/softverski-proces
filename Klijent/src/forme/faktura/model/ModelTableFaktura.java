@@ -6,8 +6,6 @@ package forme.faktura.model;
 
 import domen.Faktura;
 import domen.PoslovniPartner;
-import forme.faktura.FmPretragaFaktura;
-import forme.faktura.KontrolerKIPrikazFaktura;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -85,10 +83,9 @@ public class ModelTableFaktura extends AbstractTableModel {
         return lista.get(selectedRow);
     }
     
-    public void azurirajTabelu(Faktura faktura, FmPretragaFaktura f) throws Exception {
+    public void azurirajTabelu(List<Faktura> noviModel) {
         lista.removeAll(lista);
-        KontrolerKIPrikazFaktura.prikaziFakture(f);
+        lista.addAll(noviModel);
         fireTableDataChanged();
     }
-    
 }

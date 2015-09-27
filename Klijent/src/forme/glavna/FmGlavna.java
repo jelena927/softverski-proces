@@ -4,25 +4,9 @@
  */
 package forme.glavna;
 
-import forme.faktura.FmPretragaFaktura;
-import forme.faktura.FmUnosFakture;
-import forme.faktura.KontrolerKIUnosFakture;
-import forme.korisnik.FmPrijavaKorisnika;
-import forme.korisnik.KontrolerKIPrijavaKorisnika;
-import forme.mesto.FmPrikazMesta;
-import forme.mesto.FmUnosMesta;
-import forme.partner.FmUnosPoslovnogPartnera;
-import forme.partner.FmPrikazPartneraTabela;
-import forme.partner.KontorlerKIUnosPoslovnogPartnera;
-import forme.proizvod.FmPrikazProizvoda;
-import forme.proizvod.FmUnosProizvoda;
-import forme.proizvod.KontrolerKIUnosProizvoda;
-import java.awt.BorderLayout;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import kontroler.KontrolerKI;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 
 /**
  *
@@ -35,8 +19,6 @@ public class FmGlavna extends javax.swing.JFrame {
      */
     public FmGlavna() {
         initComponents();
-        setVisible(true);
-        prijavaKorisnika();
     }
 
     /**
@@ -54,7 +36,7 @@ public class FmGlavna extends javax.swing.JFrame {
         jmbGlavniMeni = new javax.swing.JMenuBar();
         menuFaktura = new javax.swing.JMenu();
         miUnosNoveFakture = new javax.swing.JMenuItem();
-        miPretraga = new javax.swing.JMenuItem();
+        miPretragaFaktura = new javax.swing.JMenuItem();
         menuPoslovniPartneri = new javax.swing.JMenu();
         miUnosPoslovnihPartnera = new javax.swing.JMenuItem();
         miPrikazPoslovnihPartnera = new javax.swing.JMenuItem();
@@ -66,62 +48,30 @@ public class FmGlavna extends javax.swing.JFrame {
         miPrikazMesta = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
+        setName("fmGlavna"); // NOI18N
 
         jlSat.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
 
         lblPoruka.setText("jLabel3");
 
         btnOdjava.setText("Odjavi se");
-        btnOdjava.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOdjavaActionPerformed(evt);
-            }
-        });
 
         menuFaktura.setText("Faktura");
 
         miUnosNoveFakture.setText("Unos nove fakture");
-        miUnosNoveFakture.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miUnosNoveFaktureActionPerformed(evt);
-            }
-        });
         menuFaktura.add(miUnosNoveFakture);
 
-        miPretraga.setText("Pretraga faktura");
-        miPretraga.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPretragaActionPerformed(evt);
-            }
-        });
-        menuFaktura.add(miPretraga);
+        miPretragaFaktura.setText("Pretraga faktura");
+        menuFaktura.add(miPretragaFaktura);
 
         jmbGlavniMeni.add(menuFaktura);
 
         menuPoslovniPartneri.setText("Poslovni partner");
 
         miUnosPoslovnihPartnera.setText("Unos novog partnera");
-        miUnosPoslovnihPartnera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miUnosPoslovnihPartneraActionPerformed(evt);
-            }
-        });
         menuPoslovniPartneri.add(miUnosPoslovnihPartnera);
 
         miPrikazPoslovnihPartnera.setText("Prikaz poslovnih partnera");
-        miPrikazPoslovnihPartnera.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPrikazPoslovnihPartneraActionPerformed(evt);
-            }
-        });
         menuPoslovniPartneri.add(miPrikazPoslovnihPartnera);
 
         jmbGlavniMeni.add(menuPoslovniPartneri);
@@ -129,19 +79,9 @@ public class FmGlavna extends javax.swing.JFrame {
         menuProizvod.setText("Proizvod");
 
         miUnosNovogProizvoda.setText("Unos novog proizvoda");
-        miUnosNovogProizvoda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miUnosNovogProizvodaActionPerformed(evt);
-            }
-        });
         menuProizvod.add(miUnosNovogProizvoda);
 
         miPrikazProizvoda.setText("Prikaz svih proizvoda");
-        miPrikazProizvoda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPrikazProizvodaActionPerformed(evt);
-            }
-        });
         menuProizvod.add(miPrikazProizvoda);
 
         jmbGlavniMeni.add(menuProizvod);
@@ -149,19 +89,9 @@ public class FmGlavna extends javax.swing.JFrame {
         menuMesto.setText("Mesto");
 
         miUnosNovogMesta.setText("Unos novog mesta");
-        miUnosNovogMesta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miUnosNovogMestaActionPerformed(evt);
-            }
-        });
         menuMesto.add(miUnosNovogMesta);
 
         miPrikazMesta.setText("Prikaz svih mesta");
-        miPrikazMesta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                miPrikazMestaActionPerformed(evt);
-            }
-        });
         menuMesto.add(miPrikazMesta);
 
         jmbGlavniMeni.add(menuMesto);
@@ -202,121 +132,6 @@ public class FmGlavna extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void miUnosPoslovnihPartneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUnosPoslovnihPartneraActionPerformed
-        try {
-            FmUnosPoslovnogPartnera f = new FmUnosPoslovnogPartnera(this, true);
-            KontorlerKIUnosPoslovnogPartnera.kreirajPoslovnogPartnera(f);
-            f.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_miUnosPoslovnihPartneraActionPerformed
-
-    private void miPrikazPoslovnihPartneraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPrikazPoslovnihPartneraActionPerformed
-        FmPrikazPartneraTabela f = new FmPrikazPartneraTabela(this, true);
-        f.setVisible(true);
-    }//GEN-LAST:event_miPrikazPoslovnihPartneraActionPerformed
-
-    private void miUnosNovogMestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUnosNovogMestaActionPerformed
-        FmUnosMesta f = new FmUnosMesta(this, true);
-        f.setVisible(true);
-    }//GEN-LAST:event_miUnosNovogMestaActionPerformed
-
-    private void miUnosNoveFaktureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUnosNoveFaktureActionPerformed
-        try {
-            FmUnosFakture f = new FmUnosFakture(this, true);
-            KontrolerKIUnosFakture.kreirajFakturu(f);
-            f.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_miUnosNoveFaktureActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-    }//GEN-LAST:event_formWindowOpened
-
-    private void miPrikazMestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPrikazMestaActionPerformed
-        FmPrikazMesta f = new FmPrikazMesta();
-        JDialog dialog = new JDialog(this, true);
-        dialog.setLayout(new BorderLayout());
-        dialog.add(f, BorderLayout.CENTER);
-        dialog.pack();
-        dialog.setVisible(true);
-    }//GEN-LAST:event_miPrikazMestaActionPerformed
-
-    private void miUnosNovogProizvodaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miUnosNovogProizvodaActionPerformed
-        try {
-            FmUnosProizvoda f = new FmUnosProizvoda(this, true);
-            KontrolerKIUnosProizvoda.kreirajProizvod(f);
-            f.setVisible(true);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_miUnosNovogProizvodaActionPerformed
-
-    private void miPrikazProizvodaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPrikazProizvodaActionPerformed
-        FmPrikazProizvoda f = new FmPrikazProizvoda(this, true);
-        f.setVisible(true);
-    }//GEN-LAST:event_miPrikazProizvodaActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        try {
-            KontrolerKI.prekiniKomunikaciju(this);
-            //System.exit(0);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_formWindowClosing
-
-    private void miPretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miPretragaActionPerformed
-        FmPretragaFaktura f = new FmPretragaFaktura(this, true);
-        f.setVisible(true);
-    }//GEN-LAST:event_miPretragaActionPerformed
-
-    private void btnOdjavaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOdjavaActionPerformed
-        //setVisible(false);
-        prijavaKorisnika();
-        setVisible(true);
-    }//GEN-LAST:event_btnOdjavaActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmGlavna.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FmGlavna().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOdjava;
     private javax.swing.JLabel jlSat;
@@ -326,7 +141,7 @@ public class FmGlavna extends javax.swing.JFrame {
     private javax.swing.JMenu menuMesto;
     private javax.swing.JMenu menuPoslovniPartneri;
     private javax.swing.JMenu menuProizvod;
-    private javax.swing.JMenuItem miPretraga;
+    private javax.swing.JMenuItem miPretragaFaktura;
     private javax.swing.JMenuItem miPrikazMesta;
     private javax.swing.JMenuItem miPrikazPoslovnihPartnera;
     private javax.swing.JMenuItem miPrikazProizvoda;
@@ -336,27 +151,44 @@ public class FmGlavna extends javax.swing.JFrame {
     private javax.swing.JMenuItem miUnosPoslovnihPartnera;
     // End of variables declaration//GEN-END:variables
 
-    private void prijavaKorisnika() {
-        lblPoruka.setVisible(false);
-        btnOdjava.setVisible(false);
-        KontrolerKIPrijavaKorisnika.setKorisnik(null);
-        FmPrijavaKorisnika dialog = new FmPrijavaKorisnika(this, true);
-        dialog.setVisible(true);
-        if (KontrolerKIPrijavaKorisnika.getKorisnik() != null) {
-            lblPoruka.setText("Ulogovani ste kao: " + KontrolerKIPrijavaKorisnika.getKorisnik().getIme()
-                    + " " + KontrolerKIPrijavaKorisnika.getKorisnik().getPrezime());
-            lblPoruka.setVisible(true);
-            btnOdjava.setVisible(true);
-        } else {
-            try {
-                KontrolerKI.prekiniKomunikaciju(this);
-                System.exit(0);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-            }
-            
-        }
 
+    public JButton getBtnOdjava() {
+        return btnOdjava;
+    }
+
+    public JMenuItem getMiPretragaFaktura() {
+        return miPretragaFaktura;
+    }
+
+    public JMenuItem getMiPrikazMesta() {
+        return miPrikazMesta;
+    }
+
+    public JMenuItem getMiPrikazPoslovnihPartnera() {
+        return miPrikazPoslovnihPartnera;
+    }
+
+    public JMenuItem getMiPrikazProizvoda() {
+        return miPrikazProizvoda;
+    }
+
+    public JMenuItem getMiUnosNoveFakture() {
+        return miUnosNoveFakture;
+    }
+
+    public JMenuItem getMiUnosNovogMesta() {
+        return miUnosNovogMesta;
+    }
+
+    public JMenuItem getMiUnosNovogProizvoda() {
+        return miUnosNovogProizvoda;
+    }
+
+    public JMenuItem getMiUnosPoslovnihPartnera() {
+        return miUnosPoslovnihPartnera;
+    }
+
+    public JLabel getLblPoruka() {
+        return lblPoruka;
     }
 }

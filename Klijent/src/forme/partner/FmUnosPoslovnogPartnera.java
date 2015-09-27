@@ -9,7 +9,11 @@ import domen.PoslovniPartner;
 import forme.mesto.KontrolorKIMesta;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -17,15 +21,18 @@ import javax.swing.JOptionPane;
  */
 public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
 
-    private PoslovniPartner partner;
+    private final PoslovniPartner partner;
 
     /**
      * Creates new form FmUnosPoslovnogPartnera
+     * @param parent
+     * @param modal
+     * @param model
      */
-    public FmUnosPoslovnogPartnera(java.awt.Frame parent, boolean modal) {
+    public FmUnosPoslovnogPartnera(java.awt.Frame parent, boolean modal, PoslovniPartner model) {
         super(parent, modal);
         initComponents();
-        btnIzmeni.setEnabled(false);
+        this.partner = model;
     }
 
     /**
@@ -43,8 +50,6 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
         txtBroj = new javax.swing.JTextField();
         txtUlica = new javax.swing.JTextField();
         txtKontakt = new javax.swing.JTextField();
-        txtPib = new javax.swing.JTextField();
-        txtNaziv = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -52,21 +57,13 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btnIzmeni = new javax.swing.JButton();
+        txtPib = new javax.swing.JFormattedTextField();
+        txtNaziv = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos poslovnog partnera");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         btnSnimi.setText("Sačuvaj poslovnog partnera");
-        btnSnimi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSnimiActionPerformed(evt);
-            }
-        });
 
         cbMesto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -83,11 +80,6 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
         jLabel6.setText("Mesto:");
 
         btnIzmeni.setText("Izmeni poslovnog partnera");
-        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,12 +98,12 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
                             .addComponent(jLabel7))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNaziv)
-                            .addComponent(txtPib)
                             .addComponent(txtUlica)
                             .addComponent(txtBroj)
                             .addComponent(cbMesto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtKontakt)))
+                            .addComponent(txtKontakt)
+                            .addComponent(txtPib)
+                            .addComponent(txtNaziv)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSnimi)
                         .addGap(27, 27, 27)
@@ -156,76 +148,6 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSnimiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSnimiActionPerformed
-        KontorlerKIUnosPoslovnogPartnera.zapamtiPoslovnogPartnera(txtNaziv,
-                txtPib, txtKontakt, txtUlica, txtBroj, cbMesto, this);
-
-    }//GEN-LAST:event_btnSnimiActionPerformed
-
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        popuniCbMesta();
-        if (partner != null) {
-            cbMesto.setSelectedItem(partner.getAdresa().getMesto());
-        }
-    }//GEN-LAST:event_formWindowOpened
-
-    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
-        int o = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da želite da izmenite poslovnog partnera?", 
-                "Potvrda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        switch (o) {
-            case JOptionPane.YES_OPTION:
-                KontrolerKIIzmenaPoslovnogPartnera.izmeniPoslovnogPartnera(partner, txtNaziv,
-                        txtPib, txtKontakt, txtUlica, txtBroj, cbMesto, this);
-                break;
-            case JOptionPane.NO_OPTION:
-                dispose();
-                break;
-            default:
-                break;
-        }
-    }//GEN-LAST:event_btnIzmeniActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmUnosPoslovnogPartnera.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmUnosPoslovnogPartnera.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmUnosPoslovnogPartnera.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmUnosPoslovnogPartnera.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmUnosPoslovnogPartnera dialog = new FmUnosPoslovnogPartnera(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIzmeni;
     private javax.swing.JButton btnSnimi;
@@ -239,14 +161,46 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
     private javax.swing.ButtonGroup jbgPartner;
     private javax.swing.JTextField txtBroj;
     private javax.swing.JTextField txtKontakt;
-    private javax.swing.JTextField txtNaziv;
-    private javax.swing.JTextField txtPib;
+    private javax.swing.JFormattedTextField txtNaziv;
+    private javax.swing.JFormattedTextField txtPib;
     private javax.swing.JTextField txtUlica;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniCbMesta() {
+    public JComboBox getCbMesto() {
+        return cbMesto;
+    }
+
+    public JButton getBtnIzmeni() {
+        return btnIzmeni;
+    }
+
+    public JButton getBtnSnimi() {
+        return btnSnimi;
+    }
+
+    public JTextField getTxtBroj() {
+        return txtBroj;
+    }
+
+    public JTextField getTxtKontakt() {
+        return txtKontakt;
+    }
+
+    public JTextField getTxtNaziv() {
+        return txtNaziv;
+    }
+
+    public JFormattedTextField getTxtPib() {
+        return txtPib;
+    }
+
+    public JTextField getTxtUlica() {
+        return txtUlica;
+    }
+    
+    public void postaviVrednosti(boolean izmena){
         try {
-            List<Mesto> lm = KontrolorKIMesta.vratiMesta();
+            List<Mesto> lm = KontrolorKIMesta.vratiMesta(this);
             cbMesto.removeAllItems();
             cbMesto.setModel(new DefaultComboBoxModel(lm.toArray()));
             cbMesto.setSelectedIndex(0);
@@ -254,18 +208,17 @@ public class FmUnosPoslovnogPartnera extends javax.swing.JDialog {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    void popuniPodatke(PoslovniPartner p) {
-        partner = p;
-        txtNaziv.setText(p.getNaziv());
-        txtPib.setText(p.getPib());
-        txtKontakt.setText(p.getKontakt());
-        txtUlica.setText(p.getAdresa().getUlica());
-        txtBroj.setText(p.getAdresa().getBroj());
-
-        btnSnimi.setEnabled(false);
-        btnIzmeni.setEnabled(true);
-        setVisible(true);
+        if (izmena) {
+            getTxtNaziv().setText(partner.getNaziv());
+            getTxtPib().setText(partner.getPib());
+            getTxtKontakt().setText(partner.getKontakt());
+            getTxtUlica().setText(partner.getAdresa().getUlica());
+            getTxtBroj().setText(partner.getAdresa().getBroj());
+            getCbMesto().setSelectedItem(partner.getAdresa().getMesto());
+            getBtnSnimi().setEnabled(false);
+            getBtnIzmeni().setEnabled(true);
+        } else {
+            btnIzmeni.setEnabled(false);
+        }
     }
 }

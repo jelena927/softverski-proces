@@ -5,8 +5,6 @@
 package forme.proizvod.model;
 
 import domen.Proizvod;
-import forme.proizvod.FmPrikazProizvoda;
-import forme.proizvod.KontrolerKIPrikazProizvoda;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -68,9 +66,9 @@ public class ModelTabeleProizvod extends AbstractTableModel {
         return lista.get(rowIndex);
     }
 
-    public void azurirajTabelu(Proizvod p, FmPrikazProizvoda f) throws Exception {
+    public void azurirajTabelu(List<Proizvod> noviModel) {
         lista.removeAll(lista);
-        KontrolerKIPrikazProizvoda.prikaziProizvode(f);
+        lista.addAll(noviModel);
         fireTableDataChanged();
     }
 }

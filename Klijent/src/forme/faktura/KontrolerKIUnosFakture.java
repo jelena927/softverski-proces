@@ -8,17 +8,20 @@ import domen.Faktura;
 import domen.PoslovniPartner;
 import domen.StavkaFakture;
 import forme.faktura.model.ModelTabeleStavkaFakture;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import klijent.Komunikacija;
 import konstante.Operacije;
 import kontroler.KontrolerKI;
+import konverter.KonverterTipova;
 import transfer.TransferObjekat;
 
 /**
@@ -27,59 +30,81 @@ import transfer.TransferObjekat;
  */
 public class KontrolerKIUnosFakture {
 
-    private static Faktura faktura;
+    private final Faktura model;
+    private final FmUnosFakture view;
 
-    public static void kreirajFakturu(FmUnosFakture f) throws Exception {
-        faktura = new Faktura();
-        int id = KontrolerKI.generisiID(faktura);
-        faktura.setIdFakture(id);
+    public KontrolerKIUnosFakture(Frame  mainView) {
+        this.model = new Faktura();
+        this.view = new FmUnosFakture(mainView, true, model);
+        kreirajFakturu();
+        view.popuniPodatke(false);
+    }
 
-        TransferObjekat toZahtev = new TransferObjekat();
-        toZahtev.setOperacija(konstante.Operacije.KREIRAJ_FAKTURU);
-        toZahtev.setParametar(faktura);
+    KontrolerKIUnosFakture(Frame mainView, Faktura faktura) {
+        this.model = faktura;
+        this.view = new FmUnosFakture(mainView, true, model);
+        view.popuniPodatke(true);
+    }
+    
+    public void pokreniFormu(){
+        postaviOsluskivace();
+        prikaziFormu();
+    }
 
-        Komunikacija.vratiObjekat().posalji(toZahtev);
-
-        TransferObjekat toOdgovor = Komunikacija.vratiObjekat().procitaj();
-        String poruka = null;
-        if (toOdgovor.getIzuzetak() != null) {
-            poruka = ((Exception) toOdgovor.getIzuzetak()).getMessage();
-            JOptionPane.showMessageDialog(f, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
-        } else {
-            poruka = (String) toOdgovor.getPoruka();
-            f.inicijalizuj();
-            JOptionPane.showMessageDialog(f, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
+    private void prikaziFormu() {
+        view.setVisible(true);
+    }
+    
+    private void kreirajFakturu() {
+        try {
+            int id = KontrolerKI.generisiID(model);
+            model.setIdFakture(id);
+            
+            TransferObjekat toZahtev = new TransferObjekat();
+            toZahtev.setOperacija(konstante.Operacije.KREIRAJ_FAKTURU);
+            toZahtev.setParametar(model);
+            
+            Komunikacija.vratiObjekat().posalji(toZahtev);
+            
+            TransferObjekat toOdgovor = Komunikacija.vratiObjekat().procitaj();
+            String poruka = null;
+            if (toOdgovor.getIzuzetak() != null) {
+                poruka = ((Exception) toOdgovor.getIzuzetak()).getMessage();
+                JOptionPane.showMessageDialog(view, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
+            } else {
+                poruka = (String) toOdgovor.getPoruka();
+                JOptionPane.showMessageDialog(view, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(view, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    static void zapamtiFakturu(FmUnosFakture aThis, JTextField txtBrojFakture, JTextField txtBrojOtpremnice,
-            JTextField txtDatum, JTextField txtOsnovica, JTextField txtPdv, JTextField txtUkupnaVrednost,
-            JTable tblStavkeFakture, JComboBox cbPoslovniPartner, JCheckBox checkObradjena, JCheckBox checkStornirana) {
-        Faktura f = null;
+    private void zapamtiFakturu(int operacija) {
         try {
-            String brojFakture = txtBrojFakture.getText().trim();
-            String brojOtpremnice = txtBrojOtpremnice.getText().trim();
-            String datumS = txtDatum.getText().trim();
+            model.setBrojFakture(KonverterTipova.konvertuj(view.getTxtBrojFakture(), String.class));
+            model.setBrojOtpremnice(KonverterTipova.konvertuj(view.getTxtBrojOtpremnice(), String.class));
+            model.setBrojFakture(KonverterTipova.konvertuj(view.getTxtBrojFakture(), String.class));
             
-            if (brojFakture.isEmpty() || brojOtpremnice.isEmpty() || datumS.isEmpty()) {
+            if (model.getBrojFakture().isEmpty() || model.getBrojOtpremnice().isEmpty()) {
                 throw new Exception("Sva polja su obavezna.");
             }
-            
+            String datumS = null;
             Date d = null;
             try {
+                datumS = KonverterTipova.konvertuj(view.getTxtDatum(), String.class);
                 d = new SimpleDateFormat("dd/MM/yyyy").parse(datumS);
             } catch (Exception e) {
                 throw new Exception("Unesite datum u formatu dd/MM/yyyy");
             }
+            model.setDatum(new java.sql.Date(d.getTime()));
             
-            Date datum = new java.sql.Date(d.getTime());
-            double osnovica = Double.parseDouble(txtOsnovica.getText().trim());
-            double pdv = Double.parseDouble(txtPdv.getText().trim());
-            double ukupnaVrednost = Double.parseDouble(txtUkupnaVrednost.getText().trim());
-            boolean obradjena = checkObradjena.isSelected();
-            boolean stornirana = checkStornirana.isSelected();
-            PoslovniPartner partner = (PoslovniPartner) cbPoslovniPartner.getSelectedItem();
-            List<StavkaFakture> stavke = ((ModelTabeleStavkaFakture) tblStavkeFakture.getModel()).vratiStavke();
+            model.setObradjena(view.getCheckObradjena().isSelected());
+            model.setStornirana(view.getCheckStornirana().isSelected());
+            model.setPoslovniPartner(KonverterTipova.konvertuj(view.getCbPoslovniPartner(), PoslovniPartner.class));
+            
+            List<StavkaFakture> stavke = ((ModelTabeleStavkaFakture) view.getTblStavkeFakture().getModel()).vratiStavke();
 
             if (stavke.isEmpty()) {
                 throw new Exception("Faktura mora imati bar jednu stavku.");
@@ -99,13 +124,15 @@ public class KontrolerKIUnosFakture {
                     throw new Exception("PDV mora biti broj između 0 i 1.");
                 }
             }
+            model.setStavke(stavke);
             
-            f = new Faktura(faktura.getIdFakture(), brojFakture, partner,
-                    ukupnaVrednost, obradjena, stornirana, stavke, osnovica, pdv, brojOtpremnice, datum);
+            model.setOsnovica(KonverterTipova.konvertuj(view.getTxtOsnovica(), Double.class));
+            model.setPdv(KonverterTipova.konvertuj(view.getTxtPdv(), Double.class));
+            model.setUkupnaVrednost(KonverterTipova.konvertuj(view.getTxtUkupnaVrednost(), Double.class));
 
             TransferObjekat toZahtev = new TransferObjekat();
-            toZahtev.setOperacija(Operacije.SACUVAJ_FAKTURU);
-            toZahtev.setParametar(f);
+            toZahtev.setOperacija(operacija);
+            toZahtev.setParametar(model);
 
             Komunikacija.vratiObjekat().posalji(toZahtev);
 
@@ -113,20 +140,117 @@ public class KontrolerKIUnosFakture {
             String poruka = null;
             if (toOdogovor.getIzuzetak() != null) {
                 poruka = ((Exception) toOdogovor.getIzuzetak()).getMessage();
-                JOptionPane.showMessageDialog(aThis, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(view, poruka, "Greška", JOptionPane.ERROR_MESSAGE);
             } else {
                 poruka = (String) toOdogovor.getPoruka();
-                aThis.setFaktura(f);
-                aThis.setSacuvana();
-                JOptionPane.showMessageDialog(aThis, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
+                view.setSacuvana();
+                JOptionPane.showMessageDialog(view, poruka, "Informacija", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(aThis, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public static Faktura getFaktura() {
-        return faktura;
+    private void postaviOsluskivace() {
+        view.getBtnDodajStavku().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    ((ModelTabeleStavkaFakture) view.getTblStavkeFakture().getModel()).dodajStavkuFakture();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(view, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        view.getTblStavkeFakture().addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (view.getTblStavkeFakture().getModel() instanceof DefaultTableModel) {
+                    return;
+                }
+                try{
+                    view.getTxtOsnovica().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                            getModel()).vratiPoreskuOsnovicu());
+                    view.getTxtPdv().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                            getModel()).vratiPDV());
+                    view.getTxtUkupnaVrednost().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                            getModel()).vratiUkupnuVrednostFakture(view.getTxtOsnovica(), view.getTxtPdv()));
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        view.getBtnSacuvaj().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                zapamtiFakturu(Operacije.SACUVAJ_FAKTURU);
+            }
+        });
+        
+        view.getBtnIzmeni().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                zapamtiFakturu(Operacije.SACUVAJ_FAKTURU);
+            }
+        });
+        
+        view.getTblStavkeFakture().addPropertyChangeListener(new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent pce) {
+                if (view.getTblStavkeFakture().getModel() instanceof DefaultTableModel) {
+                    return;
+                }
+                try{
+                view.getTxtOsnovica().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                        getModel()).vratiPoreskuOsnovicu());
+                view.getTxtPdv().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                        getModel()).vratiPDV());
+                view.getTxtUkupnaVrednost().setText(((ModelTabeleStavkaFakture) view.getTblStavkeFakture().
+                        getModel()).vratiUkupnuVrednostFakture(view.getTxtOsnovica(), view.getTxtPdv()));
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        view.getBtnObrisiStavku().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (view.getTblStavkeFakture().getSelectedRow() == -1) {
+                    return;
+                }
+                ((ModelTabeleStavkaFakture) view.getTblStavkeFakture().getModel()).obrisiStavku(view.getTblStavkeFakture().getSelectedRow());
+            }
+        });
+        
+        view.getBtnObradi().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                view.getCheckObradjena().setSelected(true);
+                zapamtiFakturu(Operacije.OBRADI_FAKTURU);
+                view.setObradjena();
+            }
+        });
+        
+        view.getBtnStorniraj().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                view.getCheckStornirana().setSelected(true);
+                zapamtiFakturu(Operacije.STORNIRAJ_FAKTURU);
+                view.setStornirana();
+            }
+        });
     }
 }

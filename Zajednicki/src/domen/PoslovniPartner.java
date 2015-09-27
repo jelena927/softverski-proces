@@ -22,6 +22,7 @@ public class PoslovniPartner implements Serializable, OpstiDomenskiObjekat {
     private Adresa adresa;
 
     public PoslovniPartner() {
+        adresa = new Adresa();
     }
 
     public PoslovniPartner(int id, String pib, String naziv, String kontakt, Adresa adresa) {

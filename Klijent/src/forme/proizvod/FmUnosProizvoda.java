@@ -7,7 +7,9 @@ package forme.proizvod;
 import domen.JedMere;
 import domen.Proizvod;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
 
 /**
  *
@@ -20,10 +22,10 @@ public class FmUnosProizvoda extends javax.swing.JDialog {
     /**
      * Creates new form FmUnosProizvoda
      */
-    public FmUnosProizvoda(java.awt.Frame parent, boolean modal) {
+    public FmUnosProizvoda(java.awt.Frame parent, boolean modal, Proizvod model) {
         super(parent, modal);
         initComponents();
-        btnIzmeniProizvod.setEnabled(false);
+        proizvod = model;
     }
 
     /**
@@ -46,20 +48,10 @@ public class FmUnosProizvoda extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Unos novog proizvoda");
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                formWindowOpened(evt);
-            }
-        });
 
         jLabel1.setText("Naziv:");
 
         btnSacuvaj.setText("Sačuvaj proizvod");
-        btnSacuvaj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSacuvajActionPerformed(evt);
-            }
-        });
 
         jLabel2.setText("Cena:");
 
@@ -68,11 +60,6 @@ public class FmUnosProizvoda extends javax.swing.JDialog {
         cbJedMere.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnIzmeniProizvod.setText("Izmeni proizvod");
-        btnIzmeniProizvod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniProizvodActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,73 +109,6 @@ public class FmUnosProizvoda extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        popuniCbJedMere();
-        if (proizvod != null) {
-            cbJedMere.setSelectedItem(proizvod.getJedinicaMere());
-        }
-    }//GEN-LAST:event_formWindowOpened
-
-    private void btnSacuvajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSacuvajActionPerformed
-        KontrolerKIUnosProizvoda.sacuvajProizvod(txtNaziv, txtCena, cbJedMere, this);
-    }//GEN-LAST:event_btnSacuvajActionPerformed
-
-    private void btnIzmeniProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniProizvodActionPerformed
-        int o = JOptionPane.showConfirmDialog(this, "Da li ste sigurni da želite da izmenite proizvod?", 
-                "Potvrda", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        switch (o) {
-            case JOptionPane.YES_OPTION:
-                KontrolerKIIzmenaProizvoda.izmeniProizvod(proizvod, txtNaziv, txtCena, cbJedMere, this);
-                break;
-            case JOptionPane.NO_OPTION:
-                dispose();
-                break;
-            default:
-                break;
-        }
-    }//GEN-LAST:event_btnIzmeniProizvodActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmUnosProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmUnosProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmUnosProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmUnosProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmUnosProizvoda dialog = new FmUnosProizvoda(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIzmeniProizvod;
     private javax.swing.JButton btnSacuvaj;
@@ -200,23 +120,37 @@ public class FmUnosProizvoda extends javax.swing.JDialog {
     private javax.swing.JTextField txtNaziv;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniCbJedMere() {
+    void popuniPodatke(boolean izmena) {
         cbJedMere.setModel(new DefaultComboBoxModel(JedMere.values()));
         cbJedMere.setSelectedIndex(0);
+        if(izmena){
+            txtNaziv.setText(proizvod.getNaziv());
+            txtCena.setText(String.valueOf(proizvod.getCena()));
+            cbJedMere.setSelectedItem(proizvod.getJedinicaMere());
+            btnSacuvaj.setEnabled(false);
+            btnIzmeniProizvod.setEnabled(true);
+        } else {
+            btnIzmeniProizvod.setEnabled(false);
+        }
     }
 
-    public void obrisiPolja() {
-        txtNaziv.setText(null);
-        txtCena.setText(null);
-        cbJedMere.setSelectedIndex(0);
+    public JButton getBtnIzmeniProizvod() {
+        return btnIzmeniProizvod;
     }
 
-    void popuniPodatke(Proizvod p) {
-        proizvod = p;
-        txtNaziv.setText(p.getNaziv());
-        txtCena.setText(String.valueOf(p.getCena()));
-        btnSacuvaj.setEnabled(false);
-        btnIzmeniProizvod.setEnabled(true);
-        setVisible(true);
+    public JButton getBtnSacuvaj() {
+        return btnSacuvaj;
+    }
+
+    public JComboBox getCbJedMere() {
+        return cbJedMere;
+    }
+
+    public JTextField getTxtCena() {
+        return txtCena;
+    }
+
+    public JTextField getTxtNaziv() {
+        return txtNaziv;
     }
 }

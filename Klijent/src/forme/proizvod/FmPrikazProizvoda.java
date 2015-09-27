@@ -6,7 +6,9 @@ package forme.proizvod;
 
 import domen.Proizvod;
 import forme.proizvod.model.ModelTabeleProizvod;
+import java.awt.Frame;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -17,14 +19,14 @@ import javax.swing.JTextField;
  */
 public class FmPrikazProizvoda extends javax.swing.JDialog {
 
+    private List<Proizvod> lista;
     /**
      * Creates new form FmPrikazProizvoda
      */
-    public FmPrikazProizvoda(java.awt.Frame parent, boolean modal) {
+    FmPrikazProizvoda(Frame parent, boolean modal, List<Proizvod> model) {
         super(parent, modal);
         initComponents();
-        popuniTabelu();
-        btnIzmeniProizvod.setEnabled(false);
+        lista = model;
     }
 
     /**
@@ -55,11 +57,6 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
 
             }
         ));
-        tblProizvodi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblProizvodiMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblProizvodi);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Unesite naziv ili deo naziva  proizvoda "));
@@ -67,11 +64,6 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
         jLabel1.setText("Naziv:");
 
         btnPretraga.setText("Pretraži");
-        btnPretraga.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPretragaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -100,11 +92,6 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
         );
 
         btnIzmeniProizvod.setText("Izmeni proizvod");
-        btnIzmeniProizvod.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniProizvodActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,79 +125,6 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPretragaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretragaActionPerformed
-        try {
-            KontrolerKIPrikazProizvoda.prikaziProizvode(this);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnPretragaActionPerformed
-
-    private void btnIzmeniProizvodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniProizvodActionPerformed
-        if (tblProizvodi.getSelectedRow() == -1) {
-            return;
-        }
-        try {
-            Proizvod proizvod = ((ModelTabeleProizvod) tblProizvodi.getModel()).getProizvod(tblProizvodi.getSelectedRow());
-           
-            KontrolerKIPrikazProizvoda.prikaziPodatke(proizvod);
-            ((ModelTabeleProizvod) tblProizvodi.getModel()).azurirajTabelu(proizvod, this);
-            btnIzmeniProizvod.setEnabled(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnIzmeniProizvodActionPerformed
-
-    private void tblProizvodiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProizvodiMouseClicked
-        if (tblProizvodi.getSelectedRow() != -1) {
-            btnIzmeniProizvod.setEnabled(true);
-        }else{
-            btnIzmeniProizvod.setEnabled(false);
-        }
-    }//GEN-LAST:event_tblProizvodiMouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazProizvoda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmPrikazProizvoda dialog = new FmPrikazProizvoda(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIzmeniProizvod;
     private javax.swing.JButton btnPretraga;
@@ -223,7 +137,6 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
 
     private void popuniTabelu() {
         try {
-            List<Proizvod> lista = KontrolerKIPrikazProizvoda.vratiProizvode(this);
             ModelTabeleProizvod mtp = new ModelTabeleProizvod(lista);
             tblProizvodi.setModel(mtp);
         } catch (Exception ex) {
@@ -239,6 +152,18 @@ public class FmPrikazProizvoda extends javax.swing.JDialog {
     public JTable getTblProizvodi() {
         return tblProizvodi;
     }
-    
+
+    public JButton getBtnIzmeniProizvod() {
+        return btnIzmeniProizvod;
+    }
+
+    public JButton getBtnPretraga() {
+        return btnPretraga;
+    }
+
+    public void postaviVrednosti() {
+        popuniTabelu();
+        btnIzmeniProizvod.setEnabled(false);
+    }
     
 }

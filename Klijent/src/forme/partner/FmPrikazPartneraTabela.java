@@ -7,6 +7,7 @@ package forme.partner;
 import domen.PoslovniPartner;
 import forme.partner.model.ModelTabelePoslovniPartner;
 import java.util.List;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -17,14 +18,17 @@ import javax.swing.JTextField;
  */
 public class FmPrikazPartneraTabela extends javax.swing.JDialog {
 
+    private List<PoslovniPartner> lista;
+    
     /**
      * Creates new form FmPrikazPartneraTabela
+     * @param parent
+     * @param modal
      */
-    public FmPrikazPartneraTabela(java.awt.Frame parent, boolean modal) {
+    public FmPrikazPartneraTabela(java.awt.Frame parent, boolean modal, List<PoslovniPartner> model) {
         super(parent, modal);
         initComponents();
-        popuniTabelu();
-        btnIzmeni.setEnabled(false);
+        lista = model;
     }
 
     /**
@@ -55,16 +59,6 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
 
             }
         ));
-        tblPartneri.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPartneriMouseClicked(evt);
-            }
-        });
-        tblPartneri.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                tblPartneriFocusLost(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblPartneri);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Unesite naziv ili deo naziva poslovnog partnera "));
@@ -72,11 +66,6 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
         jLabel2.setText("Naziv:");
 
         btnPretraga1.setText("Pretraži");
-        btnPretraga1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPretraga1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -105,11 +94,6 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
         );
 
         btnIzmeni.setText("Izmeni poslovnog partnera");
-        btnIzmeni.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIzmeniActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,84 +124,6 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPretraga1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPretraga1ActionPerformed
-        try {
-            KontrolerKIPrikazPoslovnihPartnera.prikaziPoslovnePartnere(this);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnPretraga1ActionPerformed
-
-    private void btnIzmeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzmeniActionPerformed
-        if (tblPartneri.getSelectedRow() == -1) {
-            return;
-        }
-        try {
-            PoslovniPartner poslovniPartner = ((ModelTabelePoslovniPartner) tblPartneri.getModel()).
-                    getPoslovniPartner(tblPartneri.getSelectedRow());
-           
-            KontrolerKIPrikazPoslovnihPartnera.prikaziPodatke(poslovniPartner);
-            ((ModelTabelePoslovniPartner) tblPartneri.getModel()).azurirajTabelu(poslovniPartner, this);
-            btnIzmeni.setEnabled(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }//GEN-LAST:event_btnIzmeniActionPerformed
-
-    private void tblPartneriMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPartneriMouseClicked
-        if (tblPartneri.getSelectedRow() != -1) {
-            btnIzmeni.setEnabled(true);
-        }else{
-            btnIzmeni.setEnabled(false);
-        }
-    }//GEN-LAST:event_tblPartneriMouseClicked
-
-    private void tblPartneriFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblPartneriFocusLost
-        
-    }//GEN-LAST:event_tblPartneriFocusLost
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazPartneraTabela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazPartneraTabela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazPartneraTabela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FmPrikazPartneraTabela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FmPrikazPartneraTabela dialog = new FmPrikazPartneraTabela(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIzmeni;
     private javax.swing.JButton btnPretraga1;
@@ -228,16 +134,6 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
     private javax.swing.JTextField txtNaziv1;
     // End of variables declaration//GEN-END:variables
 
-    private void popuniTabelu() {
-        try {
-            List<PoslovniPartner> lista = KontrolerKIPrikazPoslovnihPartnera.vratiPoslovnePartnere(this);
-            ModelTabelePoslovniPartner mtp = new ModelTabelePoslovniPartner(lista);
-            tblPartneri.setModel(mtp);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     public JTextField getTxtNaziv1() {
         return txtNaziv1;
@@ -247,7 +143,30 @@ public class FmPrikazPartneraTabela extends javax.swing.JDialog {
         return tblPartneri;
     }
 
+    public JButton getBtnIzmeni() {
+        return btnIzmeni;
+    }
+
+    public JButton getBtnPretraga1() {
+        return btnPretraga1;
+    }
+
+    public List<PoslovniPartner> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<PoslovniPartner> lista) {
+        this.lista = lista;
+    }
     
-    
-    
+    public void postaviVrednosti() {
+        try {
+            ModelTabelePoslovniPartner mtp = new ModelTabelePoslovniPartner(lista);
+            getTblPartneri().setModel(mtp);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+        }
+        getBtnIzmeni().setEnabled(false);
+    }
 }

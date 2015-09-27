@@ -8,9 +8,6 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
-  <Events>
-    <EventHandler event="windowOpened" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowOpened"/>
-  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -220,9 +217,6 @@
                   </Table>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tblStavkeFakturePropertyChange"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -230,41 +224,26 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDodajStavkuActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnSacuvaj">
           <Properties>
             <Property name="text" type="java.lang.String" value="Sa&#x10d;uvaj"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSacuvajActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnObradi">
           <Properties>
             <Property name="text" type="java.lang.String" value="Obradi"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObradiActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnIzmeni">
           <Properties>
             <Property name="text" type="java.lang.String" value="Izmeni"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIzmeniActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnStorniraj">
           <Properties>
             <Property name="text" type="java.lang.String" value="Storniraj"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStornirajActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelUkupanIznos">
           <Properties>
@@ -307,9 +286,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="-"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnObrisiStavkuActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="checkObradjena">
           <Properties>
